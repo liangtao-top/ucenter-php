@@ -55,20 +55,20 @@ abstract class NoteAbstract implements NoteInterface
 
     /**
      * syncLogin
-     * @param $param
+     * @param array $params
      * @return int
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Psr\Cache\InvalidArgumentException
      * @author TaoGe <liangtao.gz@foxmail.com>
-     * @date   2022/6/21 11:00
+     * @date   2022/6/21 14:32
      */
-    public function syncLogin($param): int
+    public function syncLogin(array $params): int
     {
         if (!$this->config->isSysLogin()) {
             return ApiReturn::FORBIDDEN->value;
         }
         $user = new User;
-        if (!$user->info($param['uid'])) {
+        if (!$user->info($params['uid'])) {
             return ApiReturn::FAILED->value;
         }
         $member  = $user->getResult();
@@ -85,14 +85,14 @@ abstract class NoteAbstract implements NoteInterface
 
     /**
      * syncLogout
-     * @param $param
+     * @param array $params
      * @return int
      * @author TaoGe <liangtao.gz@foxmail.com>
-     * @date   2022/6/21 11:01
+     * @date   2022/6/21 14:33
      */
-    public function syncLogout($param): int
+    public function syncLogout(array $params): int
     {
-        unset($param);
+        unset($params);
         if (!$this->config->isSysLogin()) {
             return ApiReturn::FORBIDDEN->value;
         }

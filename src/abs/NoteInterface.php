@@ -18,13 +18,13 @@ interface NoteInterface
 {
     function test(): int;
 
-    function syncLogin($param): int;
+    function syncLogin(array $params): int;
 
-    function syncLogout($param): int;
+    function syncLogout(array $params): int;
 
-    function createUser($param): int;
+    function createUser(array $params): int;
 
-    function updateUser($param): int;
+    function updateUser(array $params): int;
 
-    function deleteUser($param): int;
+    function deleteUser(array $params): int;
 }
