@@ -31,15 +31,14 @@ abstract class NoteAbstract implements NoteInterface
      * 配置
      * @var \top\liangtao\ucenter\struct\ConfigStruct
      */
-    protected ConfigStruct $config;
+    protected ConfigStruct $configStruct;
 
     /**
-     * @param array $config
-
+     * @param ConfigStruct $config
      */
-    public function __construct(array $config = [])
+    public function __construct(ConfigStruct $config)
     {
-        $this->config = Config::instance()->setConfig(new ConfigStruct($config))->getConfig();
+        $this->configStruct = Config::instance()->setConfig($config)->getConfig();
     }
 
     /**
@@ -64,7 +63,7 @@ abstract class NoteAbstract implements NoteInterface
      */
     public function syncLogin(array $params): int
     {
-        if (!$this->config->isSysLogin()) {
+        if (!$this->configStruct->isSysLogin()) {
             return ApiReturn::FORBIDDEN->value;
         }
         $user = new User;
@@ -73,13 +72,13 @@ abstract class NoteAbstract implements NoteInterface
         }
         $member  = $user->getResult();
         $options = [
-            'path'     => $this->config->getAppPath(),
+            'path'     => $this->configStruct->getAppPath(),
             //            'domain'   => $_SERVER['SERVER_NAME'],
             'samesite' => 'None',
             'secure'   => true
         ];
         header('P3P: CP="CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR"');
-        setcookie(CookieKey::AUTH_CODE->value, SecureUtil::encrypt("{$member['id']}", $this->config->getAppSecret()), $options);
+        setcookie(CookieKey::AUTH_CODE->value, SecureUtil::encrypt("{$member['id']}", $this->configStruct->getAppSecret()), $options);
         return ApiReturn::SUCCEED->value;
     }
 
@@ -93,12 +92,12 @@ abstract class NoteAbstract implements NoteInterface
     public function syncLogout(array $params): int
     {
         unset($params);
-        if (!$this->config->isSysLogin()) {
+        if (!$this->configStruct->isSysLogin()) {
             return ApiReturn::FORBIDDEN->value;
         }
         $options = [
             'expires'  => time() - 1,
-            'path'     => $this->config->getAppPath(),
+            'path'     => $this->configStruct->getAppPath(),
             //            'domain'   => $_SERVER['SERVER_NAME'],
             'samesite' => 'None',
             'secure'   => true

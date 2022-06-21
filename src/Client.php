@@ -36,9 +36,9 @@ class Client extends ApiAbstract implements ApiInterface
      */
     private ConfigStruct $configStruct;
 
-    public function __construct(array $config)
+    public function __construct(ConfigStruct $config)
     {
-        $this->configStruct = Config::instance()->setConfig(new ConfigStruct($config))->getConfig();
+        $this->configStruct = Config::instance()->setConfig($config)->getConfig();
     }
 
     /**
