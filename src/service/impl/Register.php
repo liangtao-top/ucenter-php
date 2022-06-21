@@ -43,7 +43,7 @@ class Register extends ApiService
         if ($response->getCode() !== 0) {
             return Result::error(Errno::UC_CODE_EXCEPTION, $response->getMsg() ?? 'UCenter服务器响应异常！');
         }
-        $member = $response['data'] ?? '';
+        $member = $response->getData() ?: '';
         if (empty($member['id'])) {
             return Result::error(Errno::UC_DATA_EXCEPTION, $response->getMsg() ?? 'UCenter服务端注册成功后返回值缺少用户ID！');
         }

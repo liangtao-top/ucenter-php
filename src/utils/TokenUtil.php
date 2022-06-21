@@ -90,19 +90,18 @@ class TokenUtil extends ApiAbstract
         $config   = Config::instance()->getConfig();
         $query    = ['app_id' => $config->getAppId(), 'app_secret' => $config->getAppSecret()];
         $response = HttpUtil::get('/api/auth/accessToken', $query);
-        if (isset($response['code'])
-            && $response['code'] === 0
-            && isset($response['data'])
-            && is_array($response['data'])
-            && isset($response['data']['access_token'])
-            && !empty($response['data']['access_token'])) {
+        if ($response->getCode() === 0
+            && !empty($response->getData())
+            && is_array($response->getData())
+            && isset($response->getData()['access_token'])
+            && !empty($response->getData()['access_token'])) {
             $token = new AccessToken();
-            $token->setToken($response['data']['access_token']);
+            $token->setToken($response->getData()['access_token']);
             $date = new DateTime;
             $date->setTimezone(new DateTimeZone('Asia/Shanghai'));
-            $date->modify("+{$response['data']['expire']} seconds");
+            $date->modify("+{$response->getData()['expire']} seconds");
             $token->setExpires($date);
-            CacheUtil::set(self::ACCESS_TOKEN_CACHE_KEY, serialize($token), $response['data']['expire']);
+            CacheUtil::set(self::ACCESS_TOKEN_CACHE_KEY, serialize($token), $response->getData()['expire']);
             return $token;
         }
         throw new RuntimeException($response['msg'] ?? 'UCenter服务器响应异常，' . $response->__toString());

@@ -30,8 +30,8 @@ class StringUtil
     public static function isJson(string $string, ?bool $assoc = false): false|object|array
     {
         $decrypt = json_decode($string, $assoc);
-        if (!empty($data) && (is_object($decrypt) || is_array($data))) {
-            return $data;
+        if (!empty($decrypt) && (is_object($decrypt) || is_array($decrypt))) {
+            return $decrypt;
         }
         return false;
     }

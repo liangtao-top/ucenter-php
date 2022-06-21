@@ -63,7 +63,7 @@ class Check extends ApiService
             if ($response->getCode() !== 0) {
                 return Result::error(Errno::UC_CODE_EXCEPTION, $response->getMsg() ?? 'UCenter服务器响应异常！');
             }
-            $cache = $response['data'] ?? '';
+            $cache = $response->getData() ?: '';
             CacheUtil::set($uid . '|root', $cache, 600);
         }
         return Result::success($cache);
@@ -99,7 +99,7 @@ class Check extends ApiService
         if ($response->getCode() !== 0) {
             return Result::error(Errno::UC_CODE_EXCEPTION, $response->getMsg() ?? 'UCenter服务器响应异常！');
         }
-        return Result::success($response['data'] ?? '');
+        return Result::success($response->getData() ?: '');
     }
 
 }

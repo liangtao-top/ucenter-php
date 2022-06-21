@@ -80,6 +80,6 @@ class User extends ApiService
         if ($response->getCode() !== 0) {
             return Result::error(Errno::UC_CODE_EXCEPTION, $response->getMsg() ?? 'UCenter服务器响应异常！');
         }
-        return Result::success($response['data'] ?? '');
+        return Result::success($response->getData() ?: '');
     }
 }
