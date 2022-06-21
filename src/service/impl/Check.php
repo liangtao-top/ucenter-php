@@ -43,7 +43,7 @@ class Check extends ApiService
                 return Result::success(true, $uid);
             }
         }
-        return Result::success(false);
+        return Result::error(Errno::UNKNOWN);
     }
 
     /**
@@ -64,7 +64,7 @@ class Check extends ApiService
                 return Result::error(Errno::UC_CODE_EXCEPTION, $response->getMsg() ?? 'UCenter服务器响应异常！');
             }
             $cache = $response->getData() ?: '';
-            CacheUtil::set($uid . '|root', $cache, 600);
+            CacheUtil::set($uid . '|root', $cache, 300);
         }
         return Result::success($cache);
     }
@@ -99,7 +99,7 @@ class Check extends ApiService
         if ($response->getCode() !== 0) {
             return Result::error(Errno::UC_CODE_EXCEPTION, $response->getMsg() ?? 'UCenter服务器响应异常！');
         }
-        return Result::success($response->getData() ?: '');
+        return $response->getData() ? Result::success() : Result::error(Errno::UNKNOWN);
     }
 
 }
