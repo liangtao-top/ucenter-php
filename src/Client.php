@@ -28,7 +28,7 @@ use top\liangtao\ucenter\utils\SecureUtil;
 /**
  * UCenter客户端
  */
-class Client extends ApiAbstract implements ApiInterface
+class Client implements ApiInterface
 {
 
     /**
