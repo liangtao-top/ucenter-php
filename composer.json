@@ -19,8 +19,8 @@
   ],
   "require": {
     "php": ">=8.1",
-    "liangtao/struct": "^1.0.1",
-    "liangtao/single": "^1.0",
+    "liangtao/struct": "@dev",
+    "liangtao/single": "@dev",
     "guzzlehttp/guzzle": "^7.4",
     "symfony/cache": "^6.1"
   },
